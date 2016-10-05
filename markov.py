@@ -58,25 +58,32 @@ def make_text(chains):
     #Keep doing that until your program raises a KeyError.
 
     text = ""
+    
+    random_key = choice(chains.keys()) #randomly picking key from dictionary to start
+    random_words_text = list(random_key) #creating a list of our keys and binding to random words text
+    next_word_choices = chains[random_key] #we are looking up key in dict and returning the value
+    next_word = choice(next_word_choices) #picking item from the list(value)
+    random_words_text.append(next_word) #adding new word to the list
+    next_tuple = (random_words_text[-2], random_words_text[-1]) #creating next tuple to refernce to picking next value
 
-    random_key = choice(chains.keys())
-    next_word_choice = chains[random_key]
-    next_word = choice(next_word_choice)
+    while next_tuple in chains: # while the key exists in dict
+        next_word_choices = chains[next_tuple] #using the key to find the value
+        next_word = choice(next_word_choices) #randomly picking item the list
+        random_words_text.append(next_word) # adding that word to the list
+        next_tuple = (random_words_text[-2], random_words_text[-1]) ##creating next tuple to refernce to picking next value
 
-    random_words_text = list(random_key)
-    random_words_text.append(next_word)
-    next_tuple = tuple(random_words_text[1: ])
-    next_word_choice = chains[next_tuple]
-    next_word = choice(next_word_choice)
-    random_words_text.append(next_word)
-    print random_words_text
+    for i in range(len(random_words_text)): #going through our list
+        
+        if text == "": #if the string is empty
+            text = random_words_text[i] #then add randome word text
+        else:
+            text = text + " " + random_words_text[i] # if not add a space and the random word
 
-    # print random_words_text
 
     return text
 
 
-input_path = "green-eggs.txt"
+input_path = "gettysburg.txt"
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
