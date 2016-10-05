@@ -30,20 +30,20 @@ def make_chains(text_string):
     words = text_string.split()
 
     for i in range(len(words)):
-        if i < len(words) -2:
+        if i < len(words) -2: 
+            key = (words[i], words[i + 1])
             if key not in chains:
-                key = (words[i], words[i + 1])
                 value = [words[i + 2]]
                 chains[key] = value
             else:
-                value.append(words)
+                chains[key].append(words[i + 2])
 
-        elif i == len(words) -2:
-            key = (words[i], words[i + 1])
-            value = words[0]
-            chains[key] =  value
+        # elif i == len(words) -2:
+        #     key = (words[i], words[i + 1])
+        #     value = words[0]
+        #     chains[key] =  value
 
-    print chains        
+    return chains        
 
     #return chains
 
@@ -51,9 +51,27 @@ def make_chains(text_string):
 def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
 
+    #Start with a link (key)
+    #Make a new key out of the second word in the first key and the random word 
+    #you pulled out from the list of words that followed it.
+    #Look up that new key in the dictionary, and pull a new random word out of the new list.
+    #Keep doing that until your program raises a KeyError.
+
     text = ""
 
-    # your code goes here
+    random_key = choice(chains.keys())
+    next_word_choice = chains[random_key]
+    next_word = choice(next_word_choice)
+
+    random_words_text = list(random_key)
+    random_words_text.append(next_word)
+    next_tuple = tuple(random_words_text[1: ])
+    next_word_choice = chains[next_tuple]
+    next_word = choice(next_word_choice)
+    random_words_text.append(next_word)
+    print random_words_text
+
+    # print random_words_text
 
     return text
 
